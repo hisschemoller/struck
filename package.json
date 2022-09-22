@@ -2,14 +2,34 @@
   "name": "struck",
   "private": true,
   "version": "0.0.0",
+  "license": "LGPL-3.0",
+  "description": "Percussive action with 3D physics.",
+  "repository": "https://github.com/hisschemoller/struck.git",
+  "author": "Wouter Hisschemöller <email@hisschemoller.com>",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "dependencies": {
+    "@enable3d/ammo-physics": "~0.25.2",
+    "@enable3d/three-graphics": "~0.25.2",
+    "@types/three": "^0.141.0",
+    "enable3d": "~0.25.2",
+    "three": "~0.141.0"
+  },
   "devDependencies": {
     "typescript": "^4.6.4",
     "vite": "^3.1.0"
+  },
+  "peerDependencies": {
+    "@types/matter-js": "0.17.6",
+    "@types/three": "0.141.0",
+    "matter-js": "0.17.1",
+    "phaser": "^3.55.2",
+    "poly-decomp": "^0.3.0",
+    "three": "0.141.0",
+    "three-csg-ts": "^3.1.10"
   }
 }
