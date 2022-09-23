@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>struck-icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="struck-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#3778AF" x="0" y="0" width="1024" height="1024"></rect>
+        <circle id="Oval" fill="#D8D8D8" transform="translate(512.000000, 511.292893) rotate(45.000000) translate(-512.000000, -511.292893) " cx="512" cy="511.292893" r="99.5"></circle>
+        <circle id="Oval" fill="#D8D8D8" transform="translate(350.779654, 672.513239) rotate(45.000000) translate(-350.779654, -672.513239) " cx="350.779654" cy="672.513239" r="99.5"></circle>
+        <circle id="Oval" fill="#D8D8D8" transform="translate(673.220346, 350.072547) rotate(45.000000) translate(-673.220346, -350.072547) " cx="673.220346" cy="350.072547" r="99.5"></circle>
+        <circle id="Oval" fill="#D8D8D8" transform="translate(673.220346, 672.513239) rotate(45.000000) translate(-673.220346, -672.513239) " cx="673.220346" cy="672.513239" r="99.5"></circle>
+        <circle id="Oval" fill="#D8D8D8" transform="translate(512.000000, 833.733585) rotate(45.000000) translate(-512.000000, -833.733585) " cx="512" cy="833.733585" r="99.5"></circle>
+        <circle id="Oval" fill="#D8D8D8" transform="translate(834.440692, 511.292893) rotate(45.000000) translate(-834.440692, -511.292893) " cx="834.440692" cy="511.292893" r="99.5"></circle>
+        <circle id="Oval" fill="#D8D8D8" transform="translate(350.779654, 350.072547) rotate(45.000000) translate(-350.779654, -350.072547) " cx="350.779654" cy="350.072547" r="99.5"></circle>
+        <circle id="Oval" fill="#D8D8D8" transform="translate(189.559308, 511.292893) rotate(45.000000) translate(-189.559308, -511.292893) " cx="189.559308" cy="511.292893" r="99.5"></circle>
+        <circle id="Oval" fill="#D8D8D8" transform="translate(512.000000, 189.559308) rotate(45.000000) translate(-512.000000, -189.559308) " cx="512" cy="189.559308" r="95"></circle>
+    </g>
+</svg>
