@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  base: '',
   root: './',
   plugins: [
     VitePWA({
@@ -13,6 +14,8 @@ export default defineConfig({
       manifest: {
         name: 'Struck',
         short_name: 'Struck',
+        start_url: '/struck/index.html',
+        scope: '/struck/',
         description: 'Percussive action with 3D physics.',
         theme_color: '#3778AF',
         icons: [
