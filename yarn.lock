@@ -2525,6 +2525,11 @@ magic-string@^0.25.0, magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.8"
 
+matter-js@0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/matter-js/-/matter-js-0.17.1.tgz#b30ac4c708116258fbcaacd2efd8a94e34a91c7f"
+  integrity sha512-pSquoENJgvSAlQGcA0s5UkmEohGXZaUww2g3B6qG87x0iEcVf+aigMXn5UkFPdnh6w3B+C4vXSLaYqhHwKrOLA==
+
 merge-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"

@@ -1,13 +1,14 @@
+import { PhysicsLoader, Project } from 'enable3d';
+import MainScene from './mainscene';
 import './style.css';
-import { setupCounter } from './counter';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <h1>Struck</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-  </div>
-`;
-
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
+PhysicsLoader('./lib', () => {
+  const project = new Project({
+    // @ts-ignore
+    scenes: [MainScene],
+    anisotropy: 4,
+    antialias: true,
+    softBodies: false,
+  });
+  document.getElementById('canvas-container')?.appendChild(project.renderer.domElement);
+});
