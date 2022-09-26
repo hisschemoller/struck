@@ -43,6 +43,17 @@ export default class MainScene extends Scene3D {
     this.renderer.autoClear = true;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap; // PCFSoftShadowMap
+
+    this.renderer.domElement.addEventListener('touchstart', this.onTouchStart.bind(this));
+    this.renderer.domElement.addEventListener('mousedown', this.onTouchStart.bind(this));
+  }
+
+  onTouchStart(e: MouseEvent | TouchEvent) {
+    const { touches } = e as TouchEvent;
+    const x = touches ? touches[0].clientX : (e as MouseEvent).clientX;
+    const y = touches ? touches[0].clientY : (e as MouseEvent).clientY;
+    const xNormalized = x / this.renderer.domElement.width;
+    console.log(xNormalized, y, e.type);
   }
 
   update() {
