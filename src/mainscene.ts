@@ -14,21 +14,27 @@ export default class MainScene extends Scene3D {
   }
 
   async create() {
-    // const { orbitControls: oc } = await this.warpSpeed('orbitControls');
-    // this.orbitControls = oc as OrbitControls;
-    this.warpSpeed();
+    await this.warpSpeed();
 
-    this.physics.debug?.enable();
+    // this.physics.debug?.enable();
 
-    // CAMERA
-    this.pCamera = this.camera as THREE.PerspectiveCamera;
-    this.pCamera.position.set(10, 10, 20);
+    const ground = this.physics.add.box({ mass: 0 });
 
-    // blue box (without physics)
-    this.box = this.add.box({ y: 2 }, { lambert: { color: 'deepskyblue' } });
+    const rope = this.physics.add.cylinder({
+      height: 2, radiusBottom: 0.05, radiusTop: 0.05, y: 3,
+    });
+    const box = this.physics.add.box({
+      depth: 1, height: 1, width: 1, y: 1.5,
+    });
 
-    // pink box (with physics)
-    this.physics.add.box({ y: 10 }, { lambert: { color: 'hotpink' } });
+    this.physics.add.constraints.pointToPoint(ground.body, rope.body, {
+      pivotA: { y: 4 },
+      pivotB: { y: 1 },
+    });
+    this.physics.add.constraints.pointToPoint(rope.body, box.body, {
+      pivotA: { y: -1 },
+      pivotB: { y: 0.5 },
+    });
   }
 
   async init() {
@@ -37,7 +43,6 @@ export default class MainScene extends Scene3D {
     this.renderer.autoClear = true;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap; // PCFSoftShadowMap
-    // this.renderer.setClearColor(this.clearColor);
   }
 
   update() {
