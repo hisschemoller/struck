@@ -1,16 +1,19 @@
 import { ExtendedObject3D, Scene3D, THREE } from 'enable3d';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { ClosestRaycaster } from '@enable3d/ammo-physics';
 
 // @ts-ignore
 export default class MainScene extends Scene3D {
-  box: ExtendedObject3D | undefined;
+  // orbitControls: OrbitControls | undefined;
 
-  orbitControls: OrbitControls | undefined;
+  raycaster: THREE.Raycaster;
 
-  pCamera: THREE.PerspectiveCamera | undefined;
+  ball: ExtendedObject3D | undefined;
+
+  orb: ExtendedObject3D | undefined;
 
   constructor() {
     super({ key: 'MainScene' });
+    this.raycaster = new THREE.Raycaster();
   }
 
   async create() {
@@ -35,6 +38,17 @@ export default class MainScene extends Scene3D {
       pivotA: { y: -1 },
       pivotB: { y: 0.5 },
     });
+
+    this.orb = this.physics.add.sphere({
+      radius: 3, y: 1.5, mass: 0, collisionFlags: 4,
+    }, { phong: { opacity: 0.3, transparent: true } });
+    this.orb.castShadow = false;
+    this.orb.receiveShadow = false;
+    this.orb.name = 'orb';
+
+    this.ball = this.physics.add.sphere({
+      radius: 0.5, x: -2, y: 4, mass: 1, collisionFlags: 1,
+    });
   }
 
   async init() {
@@ -49,17 +63,23 @@ export default class MainScene extends Scene3D {
   }
 
   onTouchStart(e: MouseEvent | TouchEvent) {
+    if (!this.orb || !this.ball) {
+      return;
+    }
     const { touches } = e as TouchEvent;
     const x = touches ? touches[0].clientX : (e as MouseEvent).clientX;
     const y = touches ? touches[0].clientY : (e as MouseEvent).clientY;
-    const xNormalized = x / this.renderer.domElement.width;
-    console.log(xNormalized, y, e.type);
-  }
-
-  update() {
-    if (this.box) {
-      this.box.rotation.x += 0.01;
-      this.box.rotation.y += 0.01;
+    const coords = {
+      x: (x / window.innerWidth) * 2 - 1,
+      y: -(y / window.innerHeight) * 2 + 1,
+    };
+    this.raycaster.setFromCamera(coords, this.camera);
+    const intersects = this.raycaster.intersectObjects([this.orb]);
+    if (intersects.length) {
+      this.ball.position.copy(intersects[0].point);
+      // console.log(this.ball.position);
     }
   }
+
+  update() {}
 }

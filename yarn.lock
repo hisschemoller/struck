@@ -914,7 +914,7 @@
 
 "@enable3d/ammo-physics@^0.25.2", "@enable3d/ammo-physics@~0.25.2":
   version "0.25.2"
-  resolved "https://registry.npmjs.org/@enable3d/ammo-physics/-/ammo-physics-0.25.2.tgz"
+  resolved "https://registry.yarnpkg.com/@enable3d/ammo-physics/-/ammo-physics-0.25.2.tgz#97670ffd52126aba2a91c89eb71d004ed18110ca"
   integrity sha512-GRojZ/z2/wjmDkK1LYoHR+DLydUMBC7cXHMYEZ//wjz83sEgpw/uAu1NCkYDZ75rNR+KbPm6Zi/f+apT1GcBbQ==
   dependencies:
     "@enable3d/common" "^0.25.2"
