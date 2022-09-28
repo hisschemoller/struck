@@ -1,5 +1,4 @@
 import { ExtendedObject3D, Scene3D, THREE } from 'enable3d';
-import { ClosestRaycaster } from '@enable3d/ammo-physics';
 
 // @ts-ignore
 export default class MainScene extends Scene3D {
@@ -7,9 +6,11 @@ export default class MainScene extends Scene3D {
 
   raycaster: THREE.Raycaster;
 
-  ball: ExtendedObject3D | undefined;
-
   orb: ExtendedObject3D | undefined;
+
+  clickRequest = false;
+
+  pointerCoords = new THREE.Vector2();
 
   constructor() {
     super({ key: 'MainScene' });
@@ -17,11 +18,14 @@ export default class MainScene extends Scene3D {
   }
 
   async create() {
-    await this.warpSpeed();
+    await this.warpSpeed('-ground');
 
     // this.physics.debug?.enable();
 
-    const ground = this.physics.add.box({ mass: 0 });
+    const ground = this.physics.add.box(
+      { mass: 0, collisionFlags: 4 },
+      { phong: { opacity: 0.1, transparent: true } },
+    );
 
     const rope = this.physics.add.cylinder({
       height: 2, radiusBottom: 0.05, radiusTop: 0.05, y: 3,
@@ -45,10 +49,6 @@ export default class MainScene extends Scene3D {
     this.orb.castShadow = false;
     this.orb.receiveShadow = false;
     this.orb.name = 'orb';
-
-    this.ball = this.physics.add.sphere({
-      radius: 0.5, x: -2, y: 4, mass: 1, collisionFlags: 1,
-    });
   }
 
   async init() {
@@ -58,28 +58,40 @@ export default class MainScene extends Scene3D {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap; // PCFSoftShadowMap
 
-    this.renderer.domElement.addEventListener('touchstart', this.onTouchStart.bind(this));
-    this.renderer.domElement.addEventListener('mousedown', this.onTouchStart.bind(this));
+    this.renderer.domElement.addEventListener('pointerdown', (e) => {
+      if (!this.clickRequest) {
+        this.pointerCoords.set(
+          (e.clientX / window.innerWidth) * 2 - 1,
+          -(e.clientY / window.innerHeight) * 2 + 1,
+        );
+        this.clickRequest = true;
+      }
+    });
   }
 
-  onTouchStart(e: MouseEvent | TouchEvent) {
-    if (!this.orb || !this.ball) {
+  processClick() {
+    if (!this.clickRequest || !this.orb) {
       return;
     }
-    const { touches } = e as TouchEvent;
-    const x = touches ? touches[0].clientX : (e as MouseEvent).clientX;
-    const y = touches ? touches[0].clientY : (e as MouseEvent).clientY;
-    const coords = {
-      x: (x / window.innerWidth) * 2 - 1,
-      y: -(y / window.innerHeight) * 2 + 1,
-    };
-    this.raycaster.setFromCamera(coords, this.camera);
+    this.raycaster.setFromCamera(this.pointerCoords, this.camera);
     const intersects = this.raycaster.intersectObjects([this.orb]);
     if (intersects.length) {
-      this.ball.position.copy(intersects[0].point);
-      // console.log(this.ball.position);
+      const pos = intersects[0].point.clone();
+      const ball = this.physics.add.sphere({
+        x: pos.x, y: pos.y, z: pos.z, radius: 0.4, mass: 0.05, collisionFlags: 0,
+      });
+      ball.castShadow = true;
+      ball.receiveShadow = true;
+      ball.body.setFriction(0.5);
+      const vel = this.orb.position.clone();
+      vel.sub(intersects[0].point);
+      vel.multiplyScalar(6);
+      ball.body.setVelocity(vel.x, vel.y, vel.z);
     }
+    this.clickRequest = false;
   }
 
-  update() {}
+  update() {
+    this.processClick();
+  }
 }
