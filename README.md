@@ -16,6 +16,14 @@ https://firt.dev/pwa-design-tips/#notch-and-iphone-x-support
 
 Blue: #3778AF
 
+## Fix
+
+In `node_modules/@enable3d/ammo-physics/dist/physics.js` on line 18
+
+```
+import { createHACDShapes, createHullShape, createTriMeshShape, createVHACDShapes, iterateGeometries } from './three-to-ammo';
+```
+
 ## Shoot objects in direction
 
 https://github.com/mrdoob/three.js/blob/master/examples/physics_ammo_volume.html
