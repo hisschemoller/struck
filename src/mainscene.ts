@@ -6,23 +6,31 @@ export default class MainScene extends Scene3D {
 
   orb: ExtendedObject3D | undefined;
 
+  pCamera: THREE.PerspectiveCamera | undefined;
+
   pointerCoords: THREE.Vector2;
 
   pointerdownRequest: boolean;
 
   raycaster: THREE.Raycaster;
 
+  resizeRequest: boolean;
+
   constructor() {
     super({ key: 'MainScene' });
     this.pointerCoords = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
     this.pointerdownRequest = false;
+    this.resizeRequest = false;
   }
 
   async create() {
     await this.warpSpeed('-ground');
 
     // this.physics.debug?.enable();
+
+    this.pCamera = this.camera as THREE.PerspectiveCamera;
+    this.resizeRequest = true;
 
     const ground = this.physics.add.box(
       { mass: 0, collisionFlags: 4 },
@@ -89,10 +97,15 @@ export default class MainScene extends Scene3D {
         this.audioContext.resume();
       }
     });
+
+    window.addEventListener('resize', () => {
+      this.resizeRequest = true;
+    });
   }
 
   processClick() {
-    if (!this.pointerdownRequest || !this.orb) {
+    this.pointerdownRequest = false;
+    if (!this.orb) {
       return;
     }
     this.raycaster.setFromCamera(this.pointerCoords, this.camera);
@@ -111,10 +124,23 @@ export default class MainScene extends Scene3D {
       vel.multiplyScalar(6);
       ball.body.setVelocity(vel.x, vel.y, vel.z);
     }
-    this.pointerdownRequest = false;
+  }
+
+  resize() {
+    this.resizeRequest = false;
+    if (this.pCamera) {
+      this.pCamera.aspect = window.innerWidth / window.innerHeight;
+      this.pCamera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
   }
 
   update() {
-    this.processClick();
+    if (this.resizeRequest) {
+      this.resize();
+    }
+    if (this.pointerdownRequest) {
+      this.processClick();
+    }
   }
 }
