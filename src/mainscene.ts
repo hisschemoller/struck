@@ -85,7 +85,7 @@ export default class MainScene extends Scene3D {
 
     document.addEventListener('pointerdown', () => {
       if (!this.audioContext) {
-        this.audioContext = new window.AudioContext();
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.audioContext.resume();
       }
     });
